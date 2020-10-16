@@ -1,0 +1,43 @@
+<section class="container">
+  <!-- <div class="alert alert-danger">
+    Invalid credentials
+  </div> -->
+  <div class="alert alert-danger" *ngIf="verify || badCredentiels || serverError">
+    <span *ngIf="verify">Please verify the form<br></span>
+    <span *ngIf="serverError">There was an error with the server<br></span>
+    <span *ngIf="badCredentiels">There was a problem with your login</span>
+  </div>
+  <h1 class="large text-primary">Sign In</h1>
+  <p class="lead"><i class="fas fa-user"></i> Sign into Your Account</p>
+  <form class="form" #loginForm="ngForm" (ngSubmit)="submitForm(loginForm)">
+    <div class="form-group">
+      <input type="email" placeholder="Email Address" name="email" [(ngModel)]="user.email" #email="ngModel" [ngClass]="{
+      'is-invalid': (email.errors && (email.touched || email.dirty || verify ))
+    }" required email required />
+      <span class="invalid-feedback" *ngIf="email.errors?.required && (email.touched || email.dirty || verify)">
+        Email is required
+      </span>
+      <span class="invalid-feedback" *ngIf="email.errors?.email && (email.touched || email.dirty || verify  )">
+        Please enter a valid email
+      </span>
+    </div>
+    <div class="form-group">
+      <input type="password" placeholder="Password" name="password" [(ngModel)]="user.password" #password="ngModel"
+        [ngClass]="{
+        'is-invalid': (password.errors && (password.touched || password.dirty || verify))
+      }" required minlength="6" />
+      <span class="invalid-feedback"
+        *ngIf="password.errors?.required && (password.touched || password.dirty || verify)">
+        Password is required
+      </span>
+      <span class="invalid-feedback"
+        *ngIf="password.errors?.minlength && (password.touched || password.dirty || verify)">
+        Password must be at least 6 characters
+      </span>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Login" />
+  </form>
+  <p class="my-1">
+    Don't have an account? <a (click)="goToRegister()" href="javascript:">Sign Up</a>
+  </p>
+</section>

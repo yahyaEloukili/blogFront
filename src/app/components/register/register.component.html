@@ -1,0 +1,72 @@
+<section class="container">
+  <h1 class="large text-primary">Sign Up</h1>
+  <p class="lead"><i class="fas fa-user"></i> Create Your Account</p>
+  <form class="form" #registerForm="ngForm" (ngSubmit)="submitForm(registerForm)">
+    <div class="alert alert-danger" *ngIf="verify || emailError || errorServer">
+      <span *ngIf="verify">* Please verify the form<br></span>
+
+      <span *ngIf="errorServer">* There was an error with the server<br></span>
+
+      <span *ngIf="emailError">* A user with same email already exist !</span>
+    </div>
+    <div class="form-group">
+      <input type="text" placeholder="Name" name="name" [(ngModel)]="user.name" #name="ngModel" [ngClass]="{
+        'is-invalid': (name.errors && (name.touched || name.dirty || verify))
+      }" required />
+      <span class="invalid-feedback" *ngIf="name.errors?.required && (name.touched || name.dirty || verify)">
+        Name is required
+      </span>
+    </div>
+    <div class="form-group">
+      <input type="email" placeholder="Email Address" name="email" [(ngModel)]="user.email" #email="ngModel" [ngClass]="{
+      'is-invalid': (email.errors && (email.touched || email.dirty || verify))
+    }" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+        required />
+      <span class="invalid-feedback" *ngIf="email.errors?.required && (email.touched || email.dirty || verify)">
+        Email is required
+      </span>
+      <span class="invalid-feedback" *ngIf="(email.errors?.pattern && (email.touched || email.dirty || verify))">
+        Please enter a valid email
+      </span>
+      <small class="form-text">This site uses Gravatar so if you want a profile image, use a
+        Gravatar email</small>
+    </div>
+    <div class="form-group">
+      <input type="password" placeholder="Password" name="password" [(ngModel)]="user.password" #password="ngModel"
+        [ngClass]="{
+        'is-invalid': (password.errors && (password.touched ||  password.dirty || verify))
+      }" required minlength="6" />
+      <span class="invalid-feedback"
+        *ngIf="password.errors?.required && (password.touched || password.dirty || verify)">
+        Password is required
+      </span>
+      <span class="invalid-feedback"
+        *ngIf="password.errors?.minlength && (password.touched || password.dirty || verify)">
+        Password must be at least 6 characters
+      </span>
+    </div>
+    <div class="form-group">
+      <input type="password" placeholder="Confirm Password" appConfirmEqualValidator="password" name="confirmPassword"
+        [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" [ngClass]="{
+        'is-invalid': (confirmPassword.errors && (confirmPassword.touched ||confirmPassword.dirty|| verify))
+      }" required minlength="6" />
+      <span class="invalid-feedback"
+        *ngIf="confirmPassword.errors?.required && (confirmPassword.touched || confirmPassword.dirty || verify)">
+        Confirm password is required
+      </span>
+      <span class="invalid-feedback"
+        *ngIf="confirmPassword.errors?.minlength && (confirmPassword.touched || confirmPassword.dirty || verify)">
+        Confirm password must be at least 6 characters
+      </span>
+      <span class="invalid-feedback" *ngIf="(confirmPassword.touched ||confirmPassword.dirty || verify )  && confirmPassword.errors?.notEqual &&
+        !confirmPassword.errors?.required && !confirmPassword.errors?.minlength">
+        Password and Confirm Password does not match
+      </span>
+
+    </div>
+    <input type="submit" class="btn btn-primary" value="Register" />
+  </form>
+  <p class="my-1">
+    Already have an account? <a href="login.html">Sign In</a>
+  </p>
+</section>
